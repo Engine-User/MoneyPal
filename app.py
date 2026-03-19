@@ -398,8 +398,8 @@ def inject_css():
 
         /* ──── Page padding ──── */
     .main .block-container {
-        padding-top: 185px;
-        padding-bottom: 100px;
+        padding-top: 200px;
+        padding-bottom: 0px;
     }
 
     /* Push sidebar content below the fixed ticker */
