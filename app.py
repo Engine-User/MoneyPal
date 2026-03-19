@@ -836,8 +836,8 @@ with st.sidebar:
 # ──── Header (above the ticker) ────
 st.markdown(
     """
-<div style="text-align:center; padding: 40px 0 20px;">
-    <h1 style="font-size:2.8rem; font-weight:800; letter-spacing:-0.03em;
+<div style="text-align:center; padding: 60px 0 25px;">
+    <h1 style="font-size:2.8rem; font-weight:1000; letter-spacing:-0.05em;
                background: linear-gradient(135deg, #FDFD96, #FDFD96, #FFFF33, #FFD700, #D2B48C,#FAFAD2, #FFD700, #FFA500, #FFFF00, #F8F8FF, #FFFFFF, #F5F5F5, #F8F8FF );
                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
                animation: shimmer 4s ease-in-out infinite;
