@@ -391,9 +391,10 @@ def inject_css():
         border-radius: 12px;
     }
 
-    /* Hide default Streamlit header */
+    /* Hide default Streamlit header but keep sidebar toggle visible */
     header[data-testid="stHeader"] {
-        display: none !important;
+        background: transparent !important;
+        height: auto !important;
     }
 
         /* ──── Page padding ──── */
@@ -405,72 +406,6 @@ def inject_css():
     /* Push sidebar content below the fixed ticker */
     [data-testid="stSidebarUserContent"] {
         padding-top: 130px !important;
-    }
-
-    /* ══════════════════════════════════════════════
-       SIDEBAR COLLAPSE BUTTON — FIXED BOTTOM-LEFT
-       ══════════════════════════════════════════════ */
-
-    /* Button when sidebar is COLLAPSED (the ">" arrow on main page) */
-    [data-testid="collapsedControl"] {
-        position: fixed !important;
-        bottom: 24px !important;
-        left: 12px !important;
-        top: auto !important;
-        right: auto !important;
-        z-index: 9999999 !important;
-        background: rgba(15, 23, 42, 0.95) !important;
-        border: 1px solid rgba(6, 182, 212, 0.4) !important;
-        border-radius: 10px !important;
-        padding: 8px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
-        backdrop-filter: blur(12px) !important;
-    }
-    [data-testid="collapsedControl"]:hover {
-        background: rgba(6, 182, 212, 0.2) !important;
-        border-color: rgba(6, 182, 212, 0.6) !important;
-    }
-    [data-testid="collapsedControl"] svg {
-        fill: #06b6d4 !important;
-        stroke: #06b6d4 !important;
-        width: 20px !important;
-        height: 20px !important;
-    }
-
-    /* Button when sidebar is OPEN (the "X" / "<" arrow inside sidebar header) */
-    [data-testid="stSidebarCollapseButton"] {
-        position: fixed !important;
-        bottom: 24px !important;
-        left: 12px !important;
-        top: auto !important;
-        right: auto !important;
-        z-index: 9999999 !important;
-        background: rgba(15, 23, 42, 0.95) !important;
-        border: 1px solid rgba(6, 182, 212, 0.4) !important;
-        border-radius: 10px !important;
-        padding: 8px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
-        backdrop-filter: blur(12px) !important;
-    }
-    [data-testid="stSidebarCollapseButton"]:hover {
-        background: rgba(6, 182, 212, 0.2) !important;
-        border-color: rgba(6, 182, 212, 0.6) !important;
-    }
-    [data-testid="stSidebarCollapseButton"] svg {
-        fill: #06b6d4 !important;
-        stroke: #06b6d4 !important;
-        width: 20px !important;
-        height: 20px !important;
-    }
-
-    /* Ensure the sidebar header does NOT clip the button */
-    div[data-testid="stSidebarHeader"] {
-        overflow: visible !important;
-    }
-
-    /* Allow the sidebar itself to show the fixed button */
-    section[data-testid="stSidebar"] {
-        overflow: visible !important;
     }
 
     /* ──── Divider ──── */
