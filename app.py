@@ -836,7 +836,7 @@ with st.sidebar:
 # ──── Header (above the ticker) ────
 st.markdown(
     """
-<div style="text-align:center; padding: 10px 0 5px;">
+<div style="text-align:center; padding: 30px 0 15px;">
     <h1 style="font-size:2.8rem; font-weight:800; letter-spacing:-0.03em;
                background: linear-gradient(135deg, #FDFD96, #FDFD96, #FFFF33, #FFD700, #D2B48C,#FAFAD2, #FFD700, #FFA500, #FFFF00, #F8F8FF, #FFFFFF, #F5F5F5, #F8F8FF );
                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -889,8 +889,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Spacer to push content below the fixed ticker
-st.markdown('<div style="height: 130px;"></div>', unsafe_allow_html=True)
+# Divider below header
 
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
