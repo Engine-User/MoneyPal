@@ -1,0 +1,10 @@
+streamlit
+yfinance
+openchart
+nsepython
+pandas
+pandas_ta
+plotly
+altair
+numpy
+scipy
