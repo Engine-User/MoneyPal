@@ -396,36 +396,208 @@ def inject_css():
         display: none !important;
     }
 
-    /* Padding for fixed ticker (now larger tiles) */
-    .main .block-container { padding-top: 145px; padding-bottom: 40px; }
-    [data-testid="stSidebarUserContent"] { padding-top: 130px !important; }
-    
-    /* Keep sidebar collapse button visible at the top */
-    [data-testid="collapsedControl"],
-    [data-testid="stSidebarCollapseButton"],
-    div[data-testid="stSidebarHeader"] {
-        top: 15px !important;
-        background: rgba(15,23,42,0.8) !important;
-        border-radius: 6px !important;
-        z-index: 9999999 !important;
+        /* ──── Page padding ──── */
+    .main .block-container {
+        padding-top: 145px;
+        padding-bottom: 40px;
     }
-    
-    /* Extra failsafe to push the button block container down */
-    div[data-testid="stSidebarUserContent"] {
-        padding-top: 50px !important;
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 130px !important;
     }
 
-    /* Divider */
+    /* ══════════════════════════════════════════════════════
+       SIDEBAR TOGGLE — ALWAYS FIXED BOTTOM-LEFT (BOTH STATES)
+       ══════════════════════════════════════════════════════ */
+
+    /* --- COLLAPSED STATE: the ">" expand button --- */
+    [data-testid="collapsedControl"] {
+        position: fixed !important;
+        bottom: 60px !important;
+        left: 12px !important;
+        top: auto !important;
+        right: auto !important;
+        z-index: 9999999 !important;
+
+        /* FORCE VISIBILITY — override Streamlit hiding */
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        clip: auto !important;
+        clip-path: none !important;
+        overflow: visible !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        min-height: 0 !important;
+
+        /* Styling */
+        background: rgba(15, 23, 42, 0.95) !important;
+        border: 1px solid rgba(6, 182, 212, 0.3) !important;
+        border-radius: 10px !important;
+        padding: 8px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6),
+                    0 0 15px rgba(6, 182, 212, 0.1) !important;
+        backdrop-filter: blur(16px) !important;
+        transition: all 0.3s ease !important;
+    }
+    [data-testid="collapsedControl"]:hover {
+        background: rgba(6, 182, 212, 0.18) !important;
+        border-color: rgba(6, 182, 212, 0.6) !important;
+        box-shadow: 0 6px 28px rgba(6, 182, 212, 0.25) !important;
+        transform: scale(1.1) !important;
+    }
+    [data-testid="collapsedControl"] svg {
+        fill: #06b6d4 !important;
+        stroke: #06b6d4 !important;
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    /* Force ALL parent containers of collapsedControl to NOT clip it */
+    [data-testid="collapsedControl"],
+    [data-testid="collapsedControl"] * {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* --- OPEN STATE: the "<" collapse button inside sidebar --- */
+    [data-testid="stSidebarCollapseButton"],
+    button[data-testid="stSidebarCollapseButton"] {
+        position: fixed !important;
+        bottom: 60px !important;
+        left: 12px !important;
+        top: auto !important;
+        right: auto !important;
+        z-index: 9999999 !important;
+
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+
+        background: rgba(15, 23, 42, 0.95) !important;
+        border: 1px solid rgba(6, 182, 212, 0.3) !important;
+        border-radius: 10px !important;
+        padding: 8px 10px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6),
+                    0 0 15px rgba(6, 182, 212, 0.1) !important;
+        backdrop-filter: blur(16px) !important;
+        transition: all 0.3s ease !important;
+    }
+    [data-testid="stSidebarCollapseButton"]:hover,
+    button[data-testid="stSidebarCollapseButton"]:hover {
+        background: rgba(6, 182, 212, 0.18) !important;
+        border-color: rgba(6, 182, 212, 0.6) !important;
+        box-shadow: 0 6px 28px rgba(6, 182, 212, 0.25) !important;
+        transform: scale(1.1) !important;
+    }
+    [data-testid="stSidebarCollapseButton"] svg,
+    button[data-testid="stSidebarCollapseButton"] svg {
+        fill: #06b6d4 !important;
+        stroke: #06b6d4 !important;
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    /* --- Kill the default header container that traps the button --- */
+    div[data-testid="stSidebarHeader"] {
+        min-height: 0px !important;
+        height: 0px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        position: static !important;
+    }
+
+    /* --- Force sidebar and ALL ancestors to never clip the button --- */
+    section[data-testid="stSidebar"],
+    section[data-testid="stSidebar"] > div,
+    section[data-testid="stSidebar"] > div > div,
+    section[data-testid="stSidebar"] > div > div > div {
+        overflow: visible !important;
+    }
+
+    /* --- Ensure the main app area also doesn't clip --- */
+    .stApp,
+    .stApp > div,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stHeader"] {
+        overflow: visible !important;
+    }
+
+    /* ──── Divider ──── */
     .gradient-divider {
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(6,182,212,0.3), rgba(139,92,246,0.2), transparent);
-        margin: 32px 0;
+        margin: 1px 0;
     }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
+</style>
+""", unsafe_allow_html=True)
 
+# ──── FAILSAFE: JS to keep sidebar toggle always visible ────
+st.markdown("""
+<script>
+(function() {
+    function fixSidebarButton() {
+        // Target the collapsed control (expand ">")
+        var btn = document.querySelector('[data-testid="collapsedControl"]');
+        if (btn) {
+            btn.style.setProperty('position', 'fixed', 'important');
+            btn.style.setProperty('bottom', '60px', 'important');
+            btn.style.setProperty('left', '12px', 'important');
+            btn.style.setProperty('top', 'auto', 'important');
+            btn.style.setProperty('display', 'flex', 'important');
+            btn.style.setProperty('visibility', 'visible', 'important');
+            btn.style.setProperty('opacity', '1', 'important');
+            btn.style.setProperty('z-index', '9999999', 'important');
+            btn.style.setProperty('pointer-events', 'auto', 'important');
+        }
+
+        // Target the open-state collapse button ("<")
+        var colBtn = document.querySelector('[data-testid="stSidebarCollapseButton"]');
+        if (colBtn) {
+            colBtn.style.setProperty('position', 'fixed', 'important');
+            colBtn.style.setProperty('bottom', '60px', 'important');
+            colBtn.style.setProperty('left', '12px', 'important');
+            colBtn.style.setProperty('top', 'auto', 'important');
+            colBtn.style.setProperty('z-index', '9999999', 'important');
+        }
+
+        // Force all parents to overflow visible
+        var parents = document.querySelectorAll(
+            'section[data-testid="stSidebar"], ' +
+            'section[data-testid="stSidebar"] > div, ' +
+            '[data-testid="stSidebarHeader"], ' +
+            '[data-testid="stAppViewContainer"]'
+        );
+        parents.forEach(function(el) {
+            el.style.setProperty('overflow', 'visible', 'important');
+        });
+    }
+
+    // Run immediately
+    fixSidebarButton();
+
+    // Run again after short delays (Streamlit re-renders)
+    setTimeout(fixSidebarButton, 500);
+    setTimeout(fixSidebarButton, 1500);
+    setTimeout(fixSidebarButton, 3000);
+
+    // Observe DOM changes and re-apply
+    var observer = new MutationObserver(function(mutations) {
+        fixSidebarButton();
+    });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
+})();
+</script>
+""", unsafe_allow_html=True)
 
 inject_css()
 
@@ -886,9 +1058,9 @@ st.markdown(
     <h1 style="font-size:2.8rem; font-weight:800; letter-spacing:-0.03em;
                background: linear-gradient(135deg, #FDFD96, #FDFD96, #FFFF33, #FFD700, #D2B48C,#FAFAD2, #FFD700, #FFA500, #FFFF00, #F8F8FF, #FFFFFF, #F5F5F5, #F8F8FF );
                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-               animation: shimmer 6s ease-in-out infinite;
+               animation: shimmer 4s ease-in-out infinite;
                margin-bottom:4px;">
-        💲 MoneyPal 💲 
+        💲MoneyPal💲 
     </h1>
     <p style="color:#64748b; font-size:1rem; font-weight:400;">
         Cross-Market Intelligence · Technical & Fundamental Analysis · Quant Strategies · Live Data
