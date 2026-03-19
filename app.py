@@ -147,8 +147,8 @@ def inject_css():
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
-    * { font-family: 'Space Grotesk', sans-serif !important; }
-
+    * { font-family: 'Space Grotesk', sans-serif; }
+    .stIcon, .material-symbols-rounded { font-family: 'Material Symbols Rounded' !important; }
     .stApp {
         background: linear-gradient(170deg, #0a0f1e 0%, ##000000 35%, #131c31 65%, #0f172a 100%);
     }
@@ -1527,8 +1527,7 @@ if fund_options:
                             textfont=dict(size=11, color="#e2e8f0"),
                             hovertemplate="Year: %{y}<br>Month: %{x}<br>Return: %{z:.2f}%<extra></extra>",
                             colorbar=dict(
-                                title="Return %",
-                                titlefont=dict(color="#94a3b8"),
+                                title=dict(text="Return %", font=dict(color="#94a3b8")),
                                 tickfont=dict(color="#94a3b8"),
                             ),
                         ))
