@@ -147,8 +147,10 @@ def inject_css():
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
-    * { font-family: 'Space Grotesk', sans-serif !important; }
-    .stIcon, .material-symbols-rounded { font-family: 'Material Symbols Rounded' !important; }
+    /* Apply custom font globally but explicitly exempt Streamlit's material glyph ligatures */
+    *:not(.stIcon):not(.material-symbols-rounded):not([translate="no"]):not([class*="icon"]):not([class*="Icon"]) { 
+        font-family: 'Space Grotesk', sans-serif !important; 
+    }
     .stApp {
         background: linear-gradient(170deg, #0a0f1e 0%, ##000000 35%, #131c31 65%, #0f172a 100%);
     }
@@ -398,12 +400,12 @@ def inject_css():
     .main .block-container { padding-top: 145px; padding-bottom: 40px; }
     [data-testid="stSidebarUserContent"] { padding-top: 130px !important; }
     
-    /* Move sidebar collapse buttons below the ticket strip */
+    /* Keep sidebar collapse button visible at the top */
     [data-testid="collapsedControl"],
     [data-testid="stSidebarCollapseButton"],
     div[data-testid="stSidebarHeader"] {
-        top: 375px !important;
-        background: rgba(15,23,42,0.6) !important;
+        top: 15px !important;
+        background: rgba(15,23,42,0.8) !important;
         border-radius: 6px !important;
         z-index: 9999999 !important;
     }
@@ -838,6 +840,44 @@ with st.sidebar:
 # ══════════════════════════════════════════════════════════════
 #                     MAIN APPLICATION
 # ══════════════════════════════════════════════════════════════
+
+# ──── LIVE SCROLLING TICKER BAR ────
+ticker_data = fetch_ticker_data(TICKER_SYMBOLS)
+
+if ticker_data:
+    ticker_items_html = ""
+    for t in ticker_data:
+        color = "#22c55e" if t["change"] >= 0 else "#ef4444"
+        arrow = "▲" if t["change"] >= 0 else "▼"
+        last = t["price"]
+        prev = t["prev"]
+        pct = t["change"]
+        
+        item_html = (
+            f"<div class='ticker-card'>"
+            f"<div style='color:#94a3b8; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:5px; letter-spacing:0.05em; white-space:nowrap;'>{t['name']}</div>"
+            f"<div style='color:#e2e8f0; font-size:1.35rem; font-weight:800; line-height:1.2; text-shadow:0 2px 6px rgba(0,0,0,0.7);'>{get_currency_symbol(t['name'])}{last:,.2f}</div>"
+            f"<div style='font-size:0.85rem; font-weight:700; margin-top:3px; color:{color}; text-shadow:0 1px 3px rgba(0,0,0,0.5);'>{arrow} {pct:+.2f}%</div>"
+            f"</div>"
+        )
+        ticker_items_html += item_html
+
+    # Duplicate for seamless scroll
+    full_ticker = ticker_items_html + ticker_items_html
+else:
+    full_ticker = "<div style='color:#94a3b8; font-size:0.9rem; padding: 0 40px;'>Live market data currently unavailable. Retrying...</div>"
+
+st.markdown(
+    f"""
+    <div class="ticker-bar">
+        <div class="ticker-content">
+            {full_ticker}
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # ──── Header ────
 st.markdown(
@@ -2932,80 +2972,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ──── LIVE SCROLLING TICKER BAR (FIXED AT BOTTOM) ────
-ticker_data = fetch_ticker_data(TICKER_SYMBOLS)
 
-if ticker_data:
-    ticker_items_html = ""
-    for t in ticker_data:
-        color = "#22c55e" if t["change"] >= 0 else "#ef4444"
-        arrow = "▲" if t["change"] >= 0 else "▼"
-        last = t["price"]
-        prev = t["prev"]
-        pct = t["change"]
-        
-        item_html = (
-            f"<div class='ticker-card'>"
-            f"<div style='color:#94a3b8; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:5px; letter-spacing:0.05em; white-space:nowrap;'>{t['name']}</div>"
-            f"<div style='color:#e2e8f0; font-size:1.35rem; font-weight:800; line-height:1.2; text-shadow:0 2px 6px rgba(0,0,0,0.7);'>{get_currency_symbol(t['name'])}{last:,.2f}</div>"
-            f"<div style='font-size:0.85rem; font-weight:700; margin-top:3px; color:{color}; text-shadow:0 1px 3px rgba(0,0,0,0.5);'>{arrow} {pct:+.2f}%</div>"
-            f"</div>"
-        )
-        ticker_items_html += item_html
-
-    # Duplicate for seamless scroll
-    full_ticker = ticker_items_html + ticker_items_html
-
-    ticker_html = f"""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-    body {{ margin: 0; padding: 0; background: transparent; overflow: hidden; font-family: 'Space Grotesk', sans-serif; }}
-    .ticker-bar {{
-        background: linear-gradient(90deg, #0f172a 0%, #000000 60%, #000000 50%, #1e293b 75%, #0f172a 100%);
-        border-bottom: 2px solid rgba(6,182,212,0.8);
-        padding: 12.5px 0;
-        height: 115px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.9), inset 0 2px 15px rgba(255,255,255,0.1);
-        display: flex;
-        align-items: center;
-        width: 100vw;
-    }}
-    .ticker-content {{
-        display: flex;
-        animation: scroll-ticker 40s linear infinite;
-        white-space: nowrap;
-        align-items: center;
-        height: 100%;
-        will-change: transform;
-    }}
-    .ticker-content:hover {{ animation-play-state: paused; }}
-    @keyframes scroll-ticker {{
-        0% {{ transform: translate3d(0, 0, 0); }}
-        100% {{ transform: translate3d(-50%, 0, 0); }}
-    }}
-    .ticker-card {{
-        display: inline-flex;
-        flex-direction: column;
-        justify-content: center;
-        background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,1));
-        border: 1px solid rgba(6,182,212,0.5);
-        border-top: 1px solid rgba(255,255,255,0.3);
-        border-bottom: 2px solid rgba(6,182,212,0.9);
-        border-radius: 12px;
-        padding: 12px 20px;
-        min-width: 180px;
-        margin: 0 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }}
-    </style>
-    <div class="ticker-bar">
-        <div class="ticker-content">
-            {full_ticker}
-        </div>
-    </div>
-    """
-    import streamlit.components.v1 as components
-    components.html(ticker_html, height=115)
 
 # ──── AUTO-REFRESH MECHANISM ────
 # Add auto-refresh for live ticker (every 60 seconds)
