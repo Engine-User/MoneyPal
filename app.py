@@ -404,16 +404,96 @@ def inject_css():
 
     /* Push sidebar content below the fixed ticker */
     [data-testid="stSidebarUserContent"] {
-        padding-top: 175px !important;
+        padding-top: 130px !important;
     }
 
-    /* Gradient divider */
+    /* ══════════════════════════════════════════════
+       SIDEBAR COLLAPSE BUTTON — FIXED BOTTOM-LEFT
+       ══════════════════════════════════════════════ */
+
+    /* 1. Button visible WHEN sidebar is COLLAPSED (the ">" arrow on main page) */
+    [data-testid="collapsedControl"] {
+        position: fixed !important;
+        bottom: 60px !important;          /* above the live ticker bar */
+        left: 12px !important;
+        top: auto !important;
+        right: auto !important;
+        z-index: 999999 !important;
+        background: rgba(15, 23, 42, 0.92) !important;
+        border: 1px solid rgba(6, 182, 212, 0.25) !important;
+        border-radius: 10px !important;
+        padding: 6px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(12px) !important;
+        transition: all 0.3s ease !important;
+    }
+    [data-testid="collapsedControl"]:hover {
+        background: rgba(6, 182, 212, 0.15) !important;
+        border-color: rgba(6, 182, 212, 0.5) !important;
+        box-shadow: 0 6px 24px rgba(6, 182, 212, 0.2) !important;
+        transform: scale(1.08) !important;
+    }
+    [data-testid="collapsedControl"] svg {
+        fill: #06b6d4 !important;
+        stroke: #06b6d4 !important;
+    }
+
+    /* 2. Button visible WHEN sidebar is OPEN (the "<" arrow inside sidebar) */
+    button[data-testid="stSidebarCollapseButton"],
+    [data-testid="stSidebarCollapseButton"] {
+        position: fixed !important;
+        bottom: 60px !important;          /* above the live ticker bar */
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        z-index: 999999 !important;
+        background: rgba(15, 23, 42, 0.92) !important;
+        border: 1px solid rgba(6, 182, 212, 0.25) !important;
+        border-radius: 10px !important;
+        padding: 6px 10px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(12px) !important;
+        transition: all 0.3s ease !important;
+        margin-left: 8px !important;
+    }
+    button[data-testid="stSidebarCollapseButton"]:hover,
+    [data-testid="stSidebarCollapseButton"]:hover {
+        background: rgba(6, 182, 212, 0.15) !important;
+        border-color: rgba(6, 182, 212, 0.5) !important;
+        box-shadow: 0 6px 24px rgba(6, 182, 212, 0.2) !important;
+        transform: scale(1.08) !important;
+    }
+    button[data-testid="stSidebarCollapseButton"] svg,
+    [data-testid="stSidebarCollapseButton"] svg {
+        fill: #06b6d4 !important;
+        stroke: #06b6d4 !important;
+    }
+
+    /* 3. Remove the default sidebar header gap that holds the button at top */
+    div[data-testid="stSidebarHeader"] {
+        min-height: 0px !important;
+        height: 0px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;     /* let the button escape the container */
+    }
+
+    /* 4. Make sidebar itself scrollable without clipping the fixed button */
+    section[data-testid="stSidebar"] {
+        overflow: visible !important;
+    }
+    section[data-testid="stSidebar"] > div:first-child {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    /* ──── Divider ──── */
     .gradient-divider {
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(6,182,212,0.3), rgba(139,92,246,0.2), transparent);
-        margin: 32px 0;
+        margin: 1px 0;
     }
-    
+</style>
 """, unsafe_allow_html=True)
 
 
