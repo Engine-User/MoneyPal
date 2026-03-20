@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 
 # ──────────────────────── PAGE CONFIG ────────────────────────
 st.set_page_config(
-    page_title="Asset Analyser",
+    page_title="MoneyPal",
     layout="wide",
     page_icon="💲",
     initial_sidebar_state="expanded",
