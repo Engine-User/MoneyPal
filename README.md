@@ -1,4 +1,4 @@
-# 💲 MoneyPal — Cross-Market Financial Intelligence Platform
+# 💲 MoneyPal — Analyse Global Financial Instruments 
 <img width="940" height="399" alt="image" src="https://github.com/user-attachments/assets/753603d7-a1ab-48da-a474-5e8c0ffd3bac" />
 
 **MoneyPal** is a comprehensive **Streamlit** dashboard for analysing global financial instruments. It combines live market data, technical analysis with 50+ indicators, fundamental analysis, options-chain intelligence, quantitative risk metrics, volatility analysis, and strategy payoff visualisation in a polished, dark-themed UI.
