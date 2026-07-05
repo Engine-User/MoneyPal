@@ -3,6 +3,8 @@
 
 **MoneyPal** is a comprehensive **Streamlit** dashboard for analysing global financial instruments. It combines live market data, technical analysis with 50+ indicators, fundamental analysis, options-chain intelligence, quantitative risk metrics, volatility analysis, and strategy payoff visualisation in a polished, dark-themed UI.
 
+Link to live terminal - https://moneypal.streamlit.app/
+
 > ⚠️ **Disclaimer:** This project is for educational and informational purposes only. It is **not financial advice**. Always do your own research before making investment decisions.
 
 ---
